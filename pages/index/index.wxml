@@ -1,0 +1,52 @@
+<!-- 标题导航栏 -->
+<cu-custom bgColor="#101014">
+  <view class="text-danmakus" slot="content">DANMAKUS</view>
+</cu-custom>
+
+<view wx:if="{{isLoading}}" class="flex justify-center margin-xl padding-xl bg-dmkbg" >
+  <image class="loading bg-dmkbg" src="https://upload-images.jianshu.io/upload_images/4697920-3401f7949a9e8b5c.gif" />
+</view>
+<block wx:else>
+  <title title="{{ siteInfo.siteName_Short }}" subTitle="{{ siteInfo.siteName }}"></title>
+  <!-- 站点数据 -->
+  <view class="border border-radius margin-xl shadow-wrap">
+    <view class="margin-lr padding flex text-center text-grey">
+      <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl">{{ siteInfo.totalChannelsCount }}</view>
+        <view class="margin-top-sm">
+          <text class="cuIcon-activity"></text> 已收录
+        </view>
+      </view>
+      <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl">{{ siteInfo.totalSegmentsCount }}</view>
+        <view class="margin-top-sm">
+          <text class="cuIcon-evaluate"></text> 片段
+        </view>
+      </view>
+    </view>
+    <view class="margin-lr padding flex text-center text-grey shadow-warp">
+      <view class="flex flex-sub flex-direction">
+        <view class="text-xxl">{{ siteInfo.totalLivingCount }}</view>
+        <view class="margin-top-sm">
+          <text class="cuIcon-wefill"></text> 直播中
+        </view>
+      </view>
+      <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl">{{ siteInfo.danmakuSpeed }}</view>
+        <view class="margin-top-sm">
+          <text class="cuIcon-light"></text> 弹幕速率
+        </view>
+      </view>
+      <view class="flex flex-sub flex-direction">
+        <view class="text-xxl">{{ siteInfo.onlineCount }}</view>
+        <view class="margin-top-sm">
+          <text class="cuIcon-wifi"></text> 在线人数
+        </view>
+      </view>
+    </view>
+    <view class="text-center text-gray margin-tb-sm">{{ siteInfo.date }} 数据</view>
+  </view>
+
+  <!-- tabbar -->
+  <tabbar current="homefill"></tabbar>
+</block>

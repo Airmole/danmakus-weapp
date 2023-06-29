@@ -1,0 +1,35 @@
+<!--components/channel-card/channel-card.wxml-->
+<wxs module="common" src="../../utils/formatDate.wxs"></wxs>
+
+<view class="cu-card case">
+  <navigator url="/pages/channel/detail?uid={{item.uId}}" class="cu-item shadow border" wx:for="{{channels}}" wx:if="{{item.isLiving}}" wx:key="index">
+    <view class="image">
+      <image src="{{item.livingInfo.coverUrl}}" mode="widthFix"></image>
+      <view class="cu-tag bg-blue">{{index+1}}</view>
+      <view class="cu-bar bg-shadeBottom">
+        <text class="text-cut">{{item.title}}</text>
+      </view>
+    </view>
+    <view class="cu-list menu-avatar">
+      <view class="cu-item" style="background: #101014;">
+        <view class="cu-avatar round lg" style="background-image:url({{item.faceUrl}}@128w_128h);">
+          <view wx:if="{{common.includes(favorites, item.uId)}}" class="cu-tag badge"><text class="cuIcon-favorfill bg-orange"></text></view>
+        </view>
+        <view class="content flex-sub">
+          <view class="text-grey">
+            <view wx:if="{{item.isVtb}}" class="cu-tag line-cyan sm margin-lr-xs">VTB</view>{{item.uName}}
+          </view>
+          <view class="text-gray text-sm flex justify-between">
+            <view>
+              <text class="cuIcon-markfill"></text> {{item.livingInfo.interactionCount}}
+            </view>
+            <view class="text-gray text-sm">
+              <text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.livingInfo.watchCount}}
+              <text class="cuIcon-rankfill margin-lr-xs"></text> {{item.livingInfo.onlineRank}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </navigator>
+</view>

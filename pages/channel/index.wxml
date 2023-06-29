@@ -1,0 +1,78 @@
+<!--pages/channel/index.wxml-->
+<cu-custom bgColor="bg-dmkbg">
+  <view class="text-danmakus" slot="content">DANMAKUS</view>
+</cu-custom>
+
+<title title="CHANNELS" subTitle="直播间"></title>
+
+<!-- 筛选面板 -->
+<view class="border border-radius margin-xl padding-bottom shadow-wrap">
+  <scroll-view scroll-x class="nav text-center">
+    <view class="cu-item {{item.value == tab ? 'text-danmakus cur' : ''}}" wx:for="{{tabList}}" wx:key="value" bindtap="tabChange" data-value="{{item.value}}">
+      {{item.label}}
+    </view>
+  </scroll-view>
+  <view class="cu-form-group bg-dmkbg marin-tb-sm">
+    <view wx:if="{{!(viewMode === 1 && index >= 3)}}" class="padding-xs" wx:for="{{typeList}}" wx:key="value">
+      <view bindtap="typeChange" data-value="{{item.value}}" class="cu-tag {{item.value == form.type ? 'bg-danmakus' : 'line-danmakus'}}">{{item.label}}</view>
+    </view>
+  </view>
+  <view wx:if="{{form.type == 2}}" class="cu-form-group bg-dmkbg flex">
+    <view class="flex-sub"><input value="{{form.interactionRange}}" bindchange="interactionRangeChange"></input></view>
+    <view class="flex-treble flex flex-wrap">
+      <view class="padding-left-xs" wx:for="{{interactionRangeList}}" wx:key="value">
+        <view bindtap="interactionRangeListChange" data-value="{{item.value}}" class="cu-tag {{item.value == form.interactionRange ? 'bg-danmakus' : 'line-danmakus'}}">{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="cu-form-group bg-dmkbg">
+    <input placeholder="用户名或UID" bindchange="keywordChange"></input>
+  </view>
+  <view class="cu-form-group bg-dmkbg">
+    <picker mode="multiSelector" bindchange="areaChange" bindcolumnchange="areaColumnChange" value="{{areaIndex}}" range="{{areaList}}">
+      <view class="picker text-gray" style="text-align: left;">{{form.area ? form.area : '所在直播分区'}}</view>
+    </picker>
+  </view>
+  <!-- <view class="cu-form-group bg-dmkbg">
+    <picker bindchange="groupChange" value="{{groupIndex}}" range="{{groupList}}">
+      <view class="picker text-gray" style="text-align: left;">
+        {{groupIndex?groupList[groupIndex]:'MCN'}}
+      </view>
+    </picker>
+  </view> -->
+  <view class="cu-form-group bg-dmkbg flex justify-center align-center">
+    <button bindtap="reset" class="cu-btn round bg-red shadow margin-top margin-lr"><text class="cuIcon-delete"></text> 重置</button>
+    <button bindtap="fetchChannelList" class="cu-btn round bg-danmakus shadow margin-top margin-lr"><text class="cuIcon-search"></text> 获取</button>
+  </view>
+</view>
+
+<!-- 视图模式切换 -->
+<view class="flex margin justify-center bg-dmkbg marin-tb-sm">
+  <view wx:for="{{viewList}}" wx:key="value">
+    <view bindtap="viewModeChange" data-value="{{item.value}}" class="text-xl cu-tag {{item.value == viewMode ? 'bg-danmakus' : 'line-danmakus'}}"><text class="cuIcon-{{item.icon}}"></text></view>
+  </view>
+</view>
+
+<!-- Total/Tips -->
+<view class="flex justify-center">
+  <view class="margin-lr-sm">
+    <view class="border-bottom"></view>
+  </view>
+  <view wx:if="{{viewMode == 0}}" class="text-gray text-center">共 {{channelList.total}} 直播间</view>
+  <view wx:else class="text-gray text-center">网格视图仅展示直播中的直播间</view>
+  <view class="margin-lr-sm">
+    <view class="border-bottom"></view>
+  </view>
+</view>
+
+<channel-card wx:if="{{viewMode === 1}}" channels="{{channelList.data}}" favorites="{{favorites}}" />
+<channel-list wx:if="{{viewMode === 0}}" channels="{{channelList.data}}" favorites="{{favorites}}" />
+
+<!-- 加载更多 -->
+<view wx:if="{{channelList.hasMore}}" class="bg-dmkbg flex justify-center align-center padding-bottom-xl">
+  <button bindtap="fetchMore" class="cu-btn round bg-danmakus shadow margin-top margin-lr"><text class="cuIcon-refresh"></text> 加载更多</button>
+</view>
+
+<!-- tabbar -->
+<view class='cu-tabbar-height'></view>
+<tabbar current="wefill"></tabbar>

@@ -1,0 +1,4 @@
+/* components/channel-card/channel-card.wxss */
+.border {
+  border: 1px solid #888888;
+}

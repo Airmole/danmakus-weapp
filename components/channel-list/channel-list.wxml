@@ -1,0 +1,56 @@
+<!--pages/channel/components/channelList.wxml-->
+<wxs module="common" src="../../utils/formatDate.wxs"></wxs>
+
+<view class="border border-radius margin">
+  <navigator url="/pages/channel/detail?uid={{item.uId}}" wx:for="{{channels}}" wx:key="index" class="flex flex-wrap item">
+    <view class="cu-avatar radius margin-top margin-lr xl basis-xs" style="background-image:url({{item.faceUrl}}@128w_128h);">
+      <view wx:if="{{common.includes(favorites, item.uId)}}" class="cu-tag badge"><text class="cuIcon-favorfill bg-orange"></text></view>
+    </view>
+    <view class="text-gray margin-top basis-lg">
+      <view class="margin-bottom-xs">
+        <view wx:if="{{item.isVtb}}" class="cu-tag line-cyan sm margin-lr-xs">VTB</view> {{item.uName}}
+      </view>
+      <view style="width: 450rpx;" class="margin-bottom-xs text-cut">{{item.title}}</view>
+      <view class="margin-bottom-xs" wx:if="{{item.isLiving}}">
+        <view class="cu-tag sm line-cyan">直播中</view> | {{common.TimeToDate(item.livingInfo.startDate)}}
+      </view>
+      <view wx:else>上次：{{common.TimeToDate(item.lastLiveDate)}}</view>
+    </view>
+    <view wx:if="{{item.isLiving}}" class="flex-treble flex justify-between margin-lr margin-top-xs margin-bottom">
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-cyan sm">弹幕</view>
+        <view class="cu-tag line-cyan sm">{{item.livingInfo.danmakusCount}}</view>
+      </view>
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-cyan sm">观看</view>
+        <view class="cu-tag line-cyan sm">{{item.livingInfo.watchCount}}</view>
+      </view>
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-cyan sm">高能榜</view>
+        <view class="cu-tag line-cyan sm">{{item.livingInfo.onlineRank}}</view>
+      </view>
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-cyan sm">互动</view>
+        <view class="cu-tag line-cyan sm">{{item.livingInfo.interactionCount}}</view>
+      </view>
+    </view>
+    <view wx:else class="flex-treble flex justify-between margin-lr margin-top-xs margin-bottom">
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-gray sm">共计</view>
+        <view class="cu-tag line-gray sm">{{common.formatSeconds2Hours(item.totalLiveSecond)}}小时</view>
+      </view>
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-gray sm">总弹幕</view>
+        <view class="cu-tag line-gray sm">{{item.totalDanmakuCount}}</view>
+      </view>
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-gray sm">最近直播弹幕</view>
+        <view class="cu-tag line-gray sm">{{item.lastLiveDanmakuCount}}</view>
+      </view>
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-gray sm">记录</view>
+        <view class="cu-tag line-gray sm">{{item.totalLiveCount}}</view>
+      </view>
+    </view>
+  </navigator>
+</view>

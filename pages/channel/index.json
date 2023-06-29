@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "tabbar": "/components/colorui/components/cu-tabbar/cu-tabbar",
+    "title": "/components/colorui/components/title/title",
+    "channel-list": "/components/channel-list/channel-list",
+    "channel-card": "/components/channel-card/channel-card"
+  }
+}

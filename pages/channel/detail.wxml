@@ -1,0 +1,114 @@
+<!--pages/channel/detail.wxml-->
+<wxs module="common" src="../../utils/formatDate.wxs"></wxs>
+
+<cu-custom bgColor="bg-dmkbg" isCustom="{{true}}">
+  <view slot="backText">返回</view>
+  <view class="text-danmakus" slot="content">DANMAKUS</view>
+</cu-custom>
+
+<title title="CHANNELS" subTitle="直播间"></title>
+
+<view wx:if="{{isLoading}}" class="flex justify-center margin-xl padding-xl bg-dmkbg">
+  <image class="loading bg-dmkbg" src="https://upload-images.jianshu.io/upload_images/4697920-3401f7949a9e8b5c.gif" />
+</view>
+<block wx:else>
+  <!-- 头像昵称card -->
+  <view class="margin border border-radius padding">
+    <view class="flex justify-between">
+      <view bindtap="goBack" class="text-xxl"><text class="cuIcon-roundleftfill-copy text-gray"></text></view>
+      <view wx:if="{{isFavorite}}" bindtap="cancelFavorite" class="text-xxl"><text class="cuIcon-favorfill text-gray"></text></view>
+      <view wx:else bindtap="setFavorite" class="text-xxl"><text class="cuIcon-favor text-gray"></text></view>
+    </view>
+    <view class="flex flex-wrap justify-center">
+      <view class="cu-avatar xl round" style="background-image:url({{channel.channel.faceUrl}});"></view>
+      <view class="basis-xl text-center text-gray margin-tb-sm text-xxl">
+        <view wx:if="{{isVtb}}" class="cu-tag line-cyan sm margin-lr-xs">VTB</view>{{channel.channel.uName}}
+      </view>
+      <view class="basis-xl text-center text-gray margin-bottom text-df">{{channel.channel.uId}}</view>
+      <view class="basis-xl text-center margin-tb-xs">
+        <view bindtap="copyText" data-copy="https://space.bilibili.com/{{channel.channel.uId}}" class="cu-tag line-danmakus"><text class="cuIcon-homefill"></text>空间主页</view>
+        <view bindtap="copyText" data-copy="https://live.bilibili.com/{{channel.channel.roomId}}" class="cu-tag line-danmakus"><text class="cuIcon-wefill"></text>直播链接</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="margin border border-radius">
+    <!-- 总条数 -->
+    <view class="flex justify-center margin-top">
+      <view class="margin-lr-sm">
+        <view class="border-bottom"></view>
+      </view>
+      <view class="text-gray text-center">共 {{lives.length}} 条 </view>
+      <view class="margin-lr-sm">
+        <view class="border-bottom"></view>
+      </view>
+    </view>
+    <!-- 时间筛选 -->
+    <view class="cu-form-group bg-dmkbg">
+      <picker mode="date" start="{{startLimit}}" end="{{endLimit}}" value="{{startAt}}" bindchange="startAtChange">
+        <view class="picker text-gray" style="text-align: right;">{{startAt}}</view>
+      </picker>
+      <view class="text-gray margin-lr"> ~ </view>
+      <picker mode="date" start="{{startLimit}}" end="{{endLimit}}" value="{{endAt}}" bindchange="endAtChange">
+        <view class="picker margin-left text-gray" style="text-align: left;">{{endAt}}</view>
+      </picker>
+    </view>
+    <!-- 结果统计 -->
+    <view class="margin-lr padding flex text-center text-gray shadow-warp">
+      <view class="flex flex-sub flex-direction">
+        <view class="text-xxl">{{ totalDanmakuCount }}</view>
+        <view class="margin-top-sm">总弹幕</view>
+      </view>
+      <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl">{{ common.formatSeconds2Hours(totalLiveSecond) }}</view>
+        <view class="margin-top-sm">总时长(h)</view>
+      </view>
+      <view class="flex flex-sub flex-direction">
+        <view class="text-xxl">{{ maxWatchCount }}</view>
+        <view class="margin-top-sm">最高观看</view>
+      </view>
+    </view>
+    <view class="margin-lr padding flex text-center text-gray shadow-warp border-bottom">
+      <view class="flex flex-sub flex-direction">
+        <view class="text-xxl">{{ maxInteractionCount }}</view>
+        <view class="margin-top-sm">最高互动</view>
+      </view>
+      <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl">{{ avgDanmakus }}</view>
+        <view class="margin-top-sm">平均弹幕</view>
+      </view>
+      <view class="flex flex-sub flex-direction">
+        <view class="text-xxl">{{ avgLiveHours }}</view>
+        <view class="margin-top-sm">平均时长(h)</view>
+      </view>
+    </view>
+    <!-- 直播场次列表 -->
+    <view class="flex padding border-bottom margin-top-sm" wx:for="{{lives}}" wx:key="index">
+      <!-- 直播封面 -->
+      <view wx:if="{{item.coverUrl}}" class="bg-img radius xl basis-sm" style="background-image:url({{item.coverUrl}}@200w);height: 80px;"></view>
+      <view wx:else class="bg-img radius xl basis-sm text-center text-xsl">
+        <text class="cuIcon-pic text-gray"></text>
+      </view>
+      <!-- 直播信息 -->
+      <view class="basis-lg margin-left-sm" style="overflow: hidden;">
+        <view class="text-cut text-gray text-lg">{{item.title}}</view>
+        <view class="text-gray margin-tb-xs">{{ common.formatSeconds2Hours((item.stopDate-item.startDate)/1000) }} 时 | {{ common.TimeToDate(item.startDate) }}</view>
+        <view class="flex flex-nowrap">
+          <view class="cu-capsule radius">
+            <view class="cu-tag bg-gray sm">弹幕</view>
+            <view class="cu-tag line-gray sm">{{item.danmakusCount}}</view>
+          </view>
+          <view class="cu-capsule radius">
+            <view class="cu-tag bg-gray sm">观看</view>
+            <view class="cu-tag line-gray sm">{{item.watchCount}}</view>
+          </view>
+          <view class="cu-capsule radius">
+            <view class="cu-tag bg-gray sm">互动</view>
+            <view class="cu-tag line-gray sm">{{item.interactionCount}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+</block>

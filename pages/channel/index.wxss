@@ -1,0 +1,14 @@
+/* pages/channel/index.wxss */
+.border-bottom {
+  min-width: 30px;
+  padding-top: 10px;
+  border-bottom: 1px solid #333;
+}
+
+.cu-list.menu>.cu-item .content .cu-tag.sm {
+	display: inline-block;
+	margin-left: 0;
+	height: 28rpx;
+	font-size: 16rpx;
+	line-height: 32rpx
+}

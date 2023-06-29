@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "title": "/components/colorui/components/title/title"
+  }
+}

@@ -1,0 +1,5 @@
+<!--components/colorui/components/title.wxml-->
+<view class="margin-xl text-center">
+  <view class="text-sl text-danmakus text-ABC">{{ title }}</view>
+  <view class="margin text-grey">{{ subTitle }}</view>
+</view>

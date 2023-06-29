@@ -1,0 +1,28 @@
+@import "components/colorui/main.wxss";
+@import "components/colorui/icon.wxss";
+
+page {
+  background-color: #101014;
+}
+
+.main-color {
+  color: #41B495;
+}
+
+.border {
+  border: 1px solid #ccc;
+}
+
+.border-radius {
+  border-radius: 8px;
+}
+
+.bottom-bar {
+  border-top: 1px solid #272727;
+}
+
+.loading {
+  width: 250rpx;
+  height: 250rpx;
+  filter: invert(100%);
+}

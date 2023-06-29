@@ -1,0 +1,10 @@
+/* pages/channel/detail.wxss */
+.border-bottom {
+  min-width: 30px;
+  padding-top: 10px;
+  border-bottom: 1px solid #333;
+}
+
+.cu-form-group picker::after {
+  content: none;
+}

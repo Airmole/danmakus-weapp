@@ -1,0 +1,19 @@
+/* pages/live/detail.wxss */
+page {
+  color: var(--gray);
+}
+
+.basis-xxl {
+  flex-basis: 100%;
+}
+
+.border-bottom {
+  min-width: 30px;
+  padding-top: 10px;
+  border-bottom: 1px solid #333;
+}
+.border-top {
+  min-width: 30px;
+  padding-top: 10px;
+  border-top: 1px solid #333;
+}

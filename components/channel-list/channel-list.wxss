@@ -1,0 +1,8 @@
+/* pages/channel/components/channelList.wxss */
+.item {
+  border-bottom: 1px solid #eee;
+}
+.avatar {
+  width: 180rpx;
+  height: 180rpx;
+}

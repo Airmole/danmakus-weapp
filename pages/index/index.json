@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "tabbar": "/components/colorui/components/cu-tabbar/cu-tabbar",
+    "title": "/components/colorui/components/title/title"
+  }
+}

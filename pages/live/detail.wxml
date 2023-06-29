@@ -1,0 +1,135 @@
+<!--pages/live/detail.wxml-->
+<cu-custom bgColor="bg-dmkbg" isCustom="{{true}}">
+  <view slot="backText">返回</view>
+  <view class="text-danmakus" slot="content">DANMAKUS</view>
+</cu-custom>
+
+<!-- 顶部tab -->
+<scroll-view scroll-x class="bg-dmkbg nav text-center">
+  <view class="cu-item {{index==currentTab?'text-danmakus cur':''}}" wx:for="{{topTabs}}" wx:key="index" bindtap="tabChange" data-value="{{item.value}}">{{item.label}}</view>
+</scroll-view>
+
+<!-- 场次信息 -->
+<view class="flex flex-wrap margin border-bottom padding-bottom" style="max-height: 130px;overflow: hidden;">
+  <view wx:if="{{coverUrl}}" class="bg-img radius xl basis-sm" style="background-image:url({{item.coverUrl}}@200w);height: 80px;"></view>
+  <view wx:else class="bg-img radius xl basis-sm text-center text-xsl">
+    <text class="cuIcon-pic text-gray"></text>
+  </view>
+  <view class="basis-lg">
+    <view class="text-gray text-lg" style="max-height: 40px;overflow: scroll;">标题标题标题标题标题题标题标题标题题标题标题标题题标题标题标题题标题标题标题题标题标题标题题标题标题标题题标题标题标题题标题标题标题题标题标题标题题标题标题标题题标题标题标题标题</view>
+    <view class="text-gray margin-tb-xs">2.9时 | 2023年06月24日 22:26:10</view>
+  </view>
+  <view class="basis-xxl justify-between margin-xs">
+    <view class="flex flex-nowrap justify-between">
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-gray sm">分区</view>
+        <view class="cu-tag line-gray sm">聊天电台</view>
+      </view>
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-gray sm">弹幕</view>
+        <view class="cu-tag line-gray sm">123123</view>
+      </view>
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-gray sm">观看</view>
+        <view class="cu-tag line-gray sm">121233</view>
+      </view>
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-gray sm">互动</view>
+        <view class="cu-tag line-gray sm">12341234</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<block wx:if="{{currentTab===0}}">
+  <!-- 界面切换开关按钮 -->
+  <view class="margin">
+    <view class="flex flwx-nowrap justify-center align-center">
+      <view><text class="text-gray">{{danmakuOrRank==='danmaku'?'弹幕':'排行'}}</text></view>
+      <view>
+        <switch checked="{{danmakuOrRank==='danmaku'}}" bindchange="switchChange" class="margin-lr cyan sm"></switch>
+      </view>
+      <block wx:if="{{danmakuOrRank==='danmaku'}}">
+        <view><text class="text-gray">工具</text></view>
+        <view>
+          <switch bindchange="foldBottomPanel" class="margin-lr cyan sm" checked="{{showDanmakuTool}}"></switch>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 排行 -->
+  <view wx:if="{{danmakuOrRank==='rank'}}">
+    <!-- 排行榜切换 -->
+    <view class="flex margin-xl justify-center bg-dmkbg marin-tb-sm">
+      <view wx:for="{{rankTypes}}" wx:key="index">
+        <view bindtap="rankTypeChange" data-value="{{item.value}}" class="text-xl cu-tag {{item.value == rankType ? 'bg-danmakus' : 'line-danmakus'}}">{{item.label}}</view>
+      </view>
+    </view>
+    <!-- 弹幕榜 -->
+    <view wx:if="{{rankType==='danmaku'}}">弹幕榜</view>
+    <!-- 礼物榜 -->
+    <view wx:if="{{rankType==='gift'}}">礼物榜</view>
+  </view>
+
+<view class="margin-lr">
+  <scroll-view scroll-y scroll-x style="height: {{danmakuPoolHeight}}px;" class="bg-dmkbg padding border border-radius">
+    <block wx:for="{{999}}"><view>888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888</view></block>
+  </scroll-view>
+  </view>
+
+  <!-- 弹幕筛选工具 -->
+  <view class="cu-modal bottom-modal {{showDanmakuTool?'show':''}}">
+    <view class="cu-dialog">
+      <view class="flex justify-between bg-black text-gray {{showDanmakuTool?'':'padding-bottom'}}">
+        <view class="flex-sub"></view>
+        <view class="flex-sub padding">筛选过滤工具</view>
+        <view class="flex-sub margin text-right">
+          <text wx:if="{{showDanmakuTool}}" bindtap="foldBottomPanel" class="cuIcon-unfold text-xl text-gray"></text>
+          <text wx:else bindtap="foldBottomPanel" class="cuIcon-fold"></text>
+        </view>
+      </view>
+      <view wx:if="{{showDanmakuTool}}" class="text-left padding padding-bottom-xl bg-black">
+        <checkbox-group bindchange="filterChange" data-key="display">
+          <view class="basis-xxl flex flex-nowrap align-center margin-xs justify-between">
+            <block wx:for="{{displayOptions}}" wx:key="index">
+              <view>
+                <checkbox class="cyan" value="{{item.value}}" checked="{{item.checked}}" />
+              </view>
+              <view class="margin-lr-xs"><text>{{item.label}}</text></view>
+            </block>
+          </view>
+        </checkbox-group>
+        <view class="basis-xxl flex flex-wrap margin-top margin-lr-xs">
+          <view class="basis-xl"><input placeholder="可输入弹幕内容筛选（支持正则表达式）" bindchange="filterChange" data-key="text" /></view>
+          <checkbox-group bindchange="filterChange" data-key="isRegExp">
+            <view class="basis-xs flex align-center">
+              <view>
+                <checkbox class="round cyan" value="{{true}}" />
+              </view>
+              <view class="margin-left-xs">正则</view>
+            </view>
+          </checkbox-group>
+        </view>
+        <view class="basis-xxl flex margin-xs border-bottom padding-bottom-sm">
+          <view class="flex-sub padding-right-sm">
+            <input type="digit" bindchange="filterChange" data-key="minGift" value="{{minGift}}" placeholder="最低价格"></input>
+          </view>
+          <view class="flex flex-sun">
+            <view wx:for="{{priceOptions}}" bindtap="filterChange" data-key="minGift" data-value="{{item}}" class="cu-tag {{filter.minGift==item?'bg-cyan':'line-cyan'}}" wx:key="index">{{item}}</view>
+          </view>
+        </view>
+        <checkbox-group bindchange="filterChange" data-key="type">
+          <view class="grid col-3 margin-top-xs">
+            <view wx:for="{{danmakuTypes}}" wx:key="index">
+              <view class="margin-xs">
+                <checkbox class="cyan" value="{{item.value}}" checked="{{item.checked}}" /><text> {{item.label}}</text>
+              </view>
+            </view>
+          </view>
+        </checkbox-group>
+      </view>
+    </view>
+  </view>
+
+</block>

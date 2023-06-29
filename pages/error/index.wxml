@@ -1,0 +1,10 @@
+<!--pages/error/index.wxml-->
+<cu-custom bgColor="bg-dmkbg">
+  <view class="text-danmakus" slot="content">DANMAKUS</view>
+</cu-custom>
+
+<view class="remind-box margin-xl">
+  <image class="remind-img" src="{{tipsImage}}"></image>
+  <text class="remind-text text-white">{{tipsText}}</text>
+  <text class="text-gray">\r\n{{desc}}</text>
+</view>

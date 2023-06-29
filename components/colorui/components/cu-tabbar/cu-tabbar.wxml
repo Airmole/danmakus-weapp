@@ -1,0 +1,6 @@
+<!--components/colorui/components/cu-tabbar.wxml-->
+<view class="cu-bar tabbar padding-bottom foot bottom-bar bg-dmkbg">
+  <view bindtap="navigateTo" data-icon="{{item.icon}}" class="action {{item.icon == current ? 'text-danmakus' : 'text-gray'}}" wx:for="{{tabs}}" wx:key="icon">
+    <view class="cuIcon-{{item.icon}}"></view> {{item.label}}
+  </view>
+</view>

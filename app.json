@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/channel/index",
+    "pages/channel/detail",
+    "pages/live/detail",
+    "pages/error/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "ColorUI",
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "white"
+  },
+  "usingComponents": {
+    "cu-custom": "/components/colorui/components/cu-custom/cu-custom"
+  },
+  "sitemapLocation": "sitemap.json"
+}
