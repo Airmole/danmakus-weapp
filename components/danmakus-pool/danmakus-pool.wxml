@@ -4,8 +4,9 @@
 <view class="margin-lr">
   <scroll-view scroll-y scroll-x style="height: {{danmakuPoolHeight}}px;" class="bg-dmkbg padding border border-radius text-gray">
     <block wx:if="{{type=='danmakus'}}">
-      <block wx:for="{{data}}" wx:key="index">
-        <view wx:if="{{item.type == 0}}" class="margin-tb-xs width">
+      <block wx:for="{{data}}" wx:for-item="itm" wx:for-index="idx" wx:key="idx" wx:if="{{idx<=0}}">
+        <block wx:for="{{itm}}" wx:key="index">
+          <view wx:if="{{item.type == 0}}" class="margin-tb-xs width">
           <view wx:if="{{!item.unshowAvarar}}" class="cu-avatar sm round margin-right-xs" style="background-image:url(https://workers.vrp.moe/api/bilibili/avatar/{{item.uId}}?size=22);"></view>{{common.TimeToHis(item.sendDate)}} <view wx:if="{{item.uId==liveInfo.data.channel.uId}}" class="margin-right-xs cu-tag line-yellow">{{item.uName}}</view><text wx:else class="text-blue">{{item.uName}}：</text>
           <image wx:if="{{common.isImgDanmaku(item.message)}}" class="img-danmaku" src="{{common.getImgDanmakuUrl(item.message)}}" mode="widthFix" lazy-load /><text wx:else>{{item.message}}</text>
         </view>
@@ -26,6 +27,7 @@
         <view wx:else class="margin-tb-xs width">
           <view wx:if="{{item.type!=0}}">{{common.TimeToHis(item.sendDate)}} <text class="text-blue">{{item.uName}}</text> {{item.message}}</view>
         </view>
+        </block>
       </block>
       <block wx:if="{{data.length === 0}}">
         <view class="remind-box text-center margin-xl">

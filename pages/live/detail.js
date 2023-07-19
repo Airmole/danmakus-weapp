@@ -1,6 +1,5 @@
-const util = require("../../utils/util")
-
 // pages/live/detail.js
+const util = require("../../utils/util")
 const app = getApp()
 Page({
 
@@ -56,15 +55,38 @@ Page({
         disableGrid: true,
         scrollShow: true
       },
-      categories: ["2018","2019","2020","2021","2022","2023"],
+      categories: [],
       series: [
         {
           name: "高能榜",
           lineType: "solid",
-          data: [35,8,25,37,4,20]
+          data: []
         }
       ]
     },
+    danmakuOptions: {
+      dataLabel:false,
+      color: ["#1890FF"],
+      enableScroll: false,
+      xAxis: {
+        disableGrid: true,
+        labelCount: 6,
+      },
+      yAxis: {
+        gridType: "dash",
+        dashLength: 2,
+      },
+      extra: {
+        area: {
+          type: "curve",
+          addLine: true,
+          width: 2,
+          gradient: true,
+          activeType: "none"
+        }
+      }
+    },
+    danmakuRes: {},
     onlineOptions:  {
       dataLabel:false,
       color: ["#1890FF"],
@@ -144,7 +166,7 @@ Page({
         const windowHeight = res.windowHeight
         const customBar = app.globalData.CustomBar
         const danmakuPoolHeight = windowHeight - customBar - util.rpx2px(100) - 250
-        _this.setData({ danmakuPoolHeight: danmakuPoolHeight })
+        _this.setData({ danmakuPoolHeight: danmakuPoolHeight, liveId: liveId })
       }
     })
   },
@@ -200,20 +222,22 @@ Page({
   fetchLiveInfo(liveId) {
     const liveInfo = wx.getStorageSync(`live_${liveId}`) || ''
     const filter = this.data.filter
+    // 有缓存，使用缓存
     if (liveInfo !== '') {
-      const danmakus = this.filterDanmakus(liveInfo.data.danmakus, filter)
+      this.chunkSetDanmakus(liveInfo.data.danmakus, filter)
       this.setData({
         liveInfo: liveInfo,
-        danmakus: danmakus,
         danmakusRank: this.danmakusRank(liveInfo.data.danmakus),
         giftRank: this.giftRank(liveInfo.data.danmakus),
         wordRes: this.wordcloudData(liveInfo.data.live.extra.wordCloud),
         onlineRes: this.onlineData(liveInfo.data.live.extra.onlineRank),
         giftRes: this.giftData(liveInfo.data.danmakus),
+        danmakuRes: this.danmakuData(liveInfo.data.danmakus),
         isLoading: false
       })
       return
     }
+    // 无缓存，请求接口
     const _this = this
     wx.request({
       url: app.globalData.apiDomain + `/api/v2/live?liveId=${liveId}&includeExtra=true&useEmoji=true&type=6&type=9&type=1&type=2&type=0&type=8&type=7&type=3&type=5`,
@@ -224,19 +248,31 @@ Page({
           return
         }
         const danmakus = _this.filterDanmakus(res.data.data.data.danmakus, filter)
+        _this.chunkSetDanmakus(danmakus, filter)
         _this.setData({
           liveInfo: res.data.data,
-          danmakus: danmakus,
           danmakusRank: _this.danmakusRank(res.data.data.data.danmakus),
           giftRank: _this.giftRank(res.data.data.data.danmakus),
           wordRes: _this.wordcloudData(res.data.data.data.live.extra.wordCloud),
           onlineRes: _this.onlineData(res.data.data.data.live.extra.onlineRank),
           giftRes: _this.giftData(res.data.data.data.danmakus),
+          danmakuRes: _this.danmakuData(res.data.data.data.danmakus),
           isLoading: false
         })
         if (res.data.data.data.live.isFinish) wx.setStorage({ key: `live_${liveId}`, data: res.data.data })
       }
     })
+  },
+  chunkSetDanmakus (danmakus, filter) {
+    const danmakusList = this.filterDanmakus(danmakus, filter)
+    const pagesize = 2000
+    const page =  Math.ceil(danmakusList.length / pagesize)
+    for (let index = 0; index < page; index++) {
+      const start = index * pagesize
+      const end = (start + pagesize)
+      const danmaku = danmakusList.slice(start, end)
+      this.setData({ ['danmakus[' + index + ']']: danmaku })
+    }
   },
   filterDanmakus(danmakus = [], filter = {}) {
     wx.showLoading({
@@ -427,6 +463,50 @@ Page({
     })
     result.categories = categories
     result.series[0].data = data
+    return result
+  },
+  danmakuData (danmakus) {
+    let result = {
+      categories: [],
+      series: [
+        { name: "弹幕数", data: [], pointShape: 'none' },
+        { name: "互动人数", data: [], pointShape: 'none' },
+        { name: "弹幕/人数比例", data: [], pointShape: 'none' }
+      ]
+    }
+
+    const categories = []
+    let list = {}
+    danmakus.forEach(element => {
+      const time = util.formatTime(parseInt(element.sendDate)).slice(-8, -2)
+      if (!Object.hasOwnProperty.call(list, time)) {
+        list[time] = {
+          danmakus: 1,
+          peoples: [element.uName],
+          proportion: 1
+        }
+      } else {
+        list[time].danmakus = list[time].danmakus + 1
+        if (!list[time].peoples.includes(element.uName)) list[time].peoples.push(element.uName)
+        list[time].proportion = (list[time].danmakus / list[time].peoples.length).toFixed(2)
+      }
+    })
+    
+    const data0 = []
+    const data1 = []
+    const data2 = []
+    for (const key in list) {
+      const element = list[key]
+      categories.push(key)
+      data0.push(element.danmakus)
+      data1.push(element.peoples.length)
+      data2.push(element.proportion)
+    }
+
+    result.categories = categories
+    result.series[0].data = data0
+    result.series[1].data = data1
+    result.series[2].data = data2
     return result
   }
 })

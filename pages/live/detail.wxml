@@ -88,7 +88,7 @@
         <view class="margin-lr-sm">
           <view class="border-bottom"></view>
         </view>
-        <view class="text-gray text-center">共 {{danmakus.length}} 条 | ￥{{liveInfo.data.live.totalIncome}} </view>
+        <view class="text-gray text-center">共 {{danmakus.length>1?'NaN':danmakus[0].length}} 条 | ￥{{liveInfo.data.live.totalIncome}} </view>
         <view class="margin-lr-sm">
           <view class="border-bottom"></view>
         </view>
@@ -157,6 +157,10 @@
     <view class="charts-box">
       <view class="text-center text-lg">高能榜</view>
       <qiun-wx-ucharts type="area" opts="{{onlineOptions}}" chartData="{{onlineRes}}" />
+    </view>
+    <view class="charts-box">
+      <view class="text-center text-lg">弹幕/互动数</view>
+      <qiun-wx-ucharts type="area" opts="{{danmakuOptions}}" chartData="{{danmakuRes}}" />
     </view>
     <view class="charts-box">
       <view class="text-center text-lg">收益</view>
