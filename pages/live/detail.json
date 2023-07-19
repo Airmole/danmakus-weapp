@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "danmakus-pool": "/components/danmakus-pool/danmakus-pool",
+    "qiun-wx-ucharts": "/components/qiun-wx-ucharts/index"
+  }
 }

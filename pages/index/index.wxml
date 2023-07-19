@@ -4,7 +4,7 @@
 </cu-custom>
 
 <view wx:if="{{isLoading}}" class="flex justify-center margin-xl padding-xl bg-dmkbg" >
-  <image class="loading bg-dmkbg" src="https://upload-images.jianshu.io/upload_images/4697920-3401f7949a9e8b5c.gif" />
+  <image class="loading bg-dmkbg" src="https://upload-images.jianshu.io/upload_images/4697920-3401f7949a9e8b5c.gif"	lazy-load />
 </view>
 <block wx:else>
   <title title="{{ siteInfo.siteName_Short }}" subTitle="{{ siteInfo.siteName }}"></title>

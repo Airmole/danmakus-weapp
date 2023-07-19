@@ -39,10 +39,20 @@ const px2rpa = px => {
   return Math.floor(rpx)
 }
 
+const sortByKey = (property, asc = true) => {
+  asc = asc == true ? -1 : 1  
+  return function (value1, value2) {
+     let a = value1[property]
+     let b = value2[property]
+     return a < b ? asc : a > b ? asc * -1 : 0
+  }
+}
+
 module.exports = {
   formatTime: formatTime,
   formatDate2Timestamp: formatDate2Timestamp,
   isVtb: isVtb,
   px2rpa: px2rpa,
-  rpx2px: rpx2px
+  rpx2px: rpx2px,
+  sortByKey: sortByKey
 }

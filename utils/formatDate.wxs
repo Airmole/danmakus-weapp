@@ -55,10 +55,27 @@ function add(m) {
   return m < 10 ? '0' + m : m
 }
 
+var TimeToHis = function (date) {
+  var dateString = time.TimeToDate(date)
+  return dateString.slice(-8)
+}
+
+var isImgDanmaku = function (message) {
+  if (message.indexOf('[https://i0.hdslb.com/') >= 0) return true
+  return false
+}
+
+var getImgDanmakuUrl = function (message) {
+  return message.slice(1, -1)
+}
+
 
 module.exports = {
   formatNumber: formatNumber,
   TimeToDate: time.TimeToDate,
+  TimeToHis: TimeToHis,
   formatSeconds2Hours: formatSeconds2Hours,
   includes: includes,
+  isImgDanmaku: isImgDanmaku,
+  getImgDanmakuUrl: getImgDanmakuUrl
 }

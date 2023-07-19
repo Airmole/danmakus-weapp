@@ -4,7 +4,7 @@
 </cu-custom>
 
 <view class="remind-box margin-xl">
-  <image class="remind-img" src="{{tipsImage}}"></image>
+  <image class="remind-img" src="{{tipsImage}}"	lazy-load></image>
   <text class="remind-text text-white">{{tipsText}}</text>
   <text class="text-gray">\r\n{{desc}}</text>
 </view>

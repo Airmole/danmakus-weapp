@@ -1,0 +1,56 @@
+<!--components/danmakus-pool/danmakus-pool.wxml-->
+<wxs module="common" src="../../utils/formatDate.wxs"></wxs>
+
+<view class="margin-lr">
+  <scroll-view scroll-y scroll-x style="height: {{danmakuPoolHeight}}px;" class="bg-dmkbg padding border border-radius text-gray">
+    <block wx:if="{{type=='danmakus'}}">
+      <block wx:for="{{data}}" wx:key="index">
+        <view wx:if="{{item.type == 0}}" class="margin-tb-xs width">
+          <view wx:if="{{!item.unshowAvarar}}" class="cu-avatar sm round margin-right-xs" style="background-image:url(https://workers.vrp.moe/api/bilibili/avatar/{{item.uId}}?size=22);"></view>{{common.TimeToHis(item.sendDate)}} <view wx:if="{{item.uId==liveInfo.data.channel.uId}}" class="margin-right-xs cu-tag line-yellow">{{item.uName}}</view><text wx:else class="text-blue">{{item.uName}}：</text>
+          <image wx:if="{{common.isImgDanmaku(item.message)}}" class="img-danmaku" src="{{common.getImgDanmakuUrl(item.message)}}" mode="widthFix" lazy-load /><text wx:else>{{item.message}}</text>
+        </view>
+        <view wx:if="{{item.type == 1}}" class="margin-tb-xs width">
+          <view class="cu-avatar sm round margin-right-xs" style="background-image:url(https://workers.vrp.moe/api/bilibili/avatar/{{item.uId}}?size=22);"></view>{{common.TimeToHis(item.sendDate)}} <text class="text-blue">{{item.uName}}</text>：<text wx:if="{{item.price==0}}" class="text-pink">免费礼物</text><text wx:if="{{item.price>0}}" class="text-pink">￥{{item.price}} 礼物</text> | <text class="text-pink">{{item.message}}</text>
+          <view class="cu-tag radius sm bg-black text-gray margin-lr-xs">{{item.count}}个</view>
+        </view>
+        <view wx:elif="{{item.type == 2}}" class="margin-tb-xs width">
+          <view class="cu-avatar sm round margin-right-xs" style="background-image:url(https://workers.vrp.moe/api/bilibili/avatar/{{item.uId}}?size=22);"></view>{{common.TimeToHis(item.sendDate)}} <text class="text-blue">{{item.uName}}</text>：<text class="text-pink">🚢上舰</text><text wx:if="{{item.price>0}}" class="text-pink">￥{{item.price}} </text> | <text class="text-pink">{{item.message}}</text>
+          <view class="cu-tag radius sm bg-black text-gray margin-lr-xs">{{item.count}}个</view>
+        </view>
+        <view wx:elif="{{item.type == 5}}" class="margin-tb-xs width">
+          <view>{{common.TimeToHis(item.sendDate)}} 标题更改：{{item.message}}</view>
+        </view>
+        <view wx:elif="{{item.type == 9}}" class="margin-tb-xs width">
+          <view>{{common.TimeToHis(item.sendDate)}} 用户 <text class="text-blue">{{item.uName}}</text> 被禁言</view>
+        </view>
+        <view wx:else class="margin-tb-xs width">
+          <view wx:if="{{item.type!=0}}">{{common.TimeToHis(item.sendDate)}} <text class="text-blue">{{item.uName}}</text> {{item.message}}</view>
+        </view>
+      </block>
+      <block wx:if="{{data.length === 0}}">
+        <view class="remind-box text-center margin-xl">
+          <image class="remind-img" src="{{tipsImage}}"	lazy-load></image>
+          <text class="remind-text text-gray">一条弹幕也没有鸭(～o￣3￣)～</text>
+        </view>
+      </block>
+    </block>
+    <block wx:if="{{type=='danmakusRank'}}">
+      <view wx:for="{{data}}" class="margin-tb-sm" wx:key="index">
+        <view class="cu-avatar round margin-lr-xs" style="background-image:url(https://workers.vrp.moe/api/bilibili/avatar/{{item.uId}}?size=22);">
+          <view class="cu-tag badge bg-red">{{index+1}}</view>
+        </view>
+        <text class="text-blue margin-left-sm">{{item.uName}}</text>
+        <text> | {{item.num}}条</text>
+      </view>
+    </block>
+    <block wx:if="{{type=='giftRank'}}">
+      <view wx:for="{{data}}" class="margin-tb-sm" wx:key="index">
+        <view class="cu-avatar round margin-lr-xs" style="background-image:url(https://workers.vrp.moe/api/bilibili/avatar/{{item.uId}}?size=22);">
+          <view class="cu-tag badge bg-red">{{index+1}}</view>
+        </view>
+        <text class="text-blue margin-left-sm">{{item.uName}}</text>
+        <text> | ￥{{item.price}}</text>
+      </view>
+    </block>
+  </scroll-view>
+</view>

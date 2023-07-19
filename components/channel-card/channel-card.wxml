@@ -4,7 +4,7 @@
 <view class="cu-card case">
   <navigator url="/pages/channel/detail?uid={{item.uId}}" class="cu-item shadow border" wx:for="{{channels}}" wx:if="{{item.isLiving}}" wx:key="index">
     <view class="image">
-      <image src="{{item.livingInfo.coverUrl}}" mode="widthFix"></image>
+      <image src="{{item.livingInfo.coverUrl}}" mode="widthFix" lazy-load></image>
       <view class="cu-tag bg-blue">{{index+1}}</view>
       <view class="cu-bar bg-shadeBottom">
         <text class="text-cut">{{item.title}}</text>

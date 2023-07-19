@@ -9,7 +9,7 @@
 <title title="CHANNELS" subTitle="直播间"></title>
 
 <view wx:if="{{isLoading}}" class="flex justify-center margin-xl padding-xl bg-dmkbg">
-  <image class="loading bg-dmkbg" src="https://upload-images.jianshu.io/upload_images/4697920-3401f7949a9e8b5c.gif" />
+  <image class="loading bg-dmkbg" src="https://upload-images.jianshu.io/upload_images/4697920-3401f7949a9e8b5c.gif"	lazy-load />
 </view>
 <block wx:else>
   <!-- 头像昵称card -->
@@ -83,7 +83,7 @@
       </view>
     </view>
     <!-- 直播场次列表 -->
-    <view class="flex padding border-bottom margin-top-sm" wx:for="{{lives}}" wx:key="index">
+    <navigator url="/pages/live/detail?liveId={{item.liveId}}" class="flex padding border-bottom margin-top-sm" wx:for="{{lives}}" wx:key="index">
       <!-- 直播封面 -->
       <view wx:if="{{item.coverUrl}}" class="bg-img radius xl basis-sm" style="background-image:url({{item.coverUrl}}@200w);height: 80px;"></view>
       <view wx:else class="bg-img radius xl basis-sm text-center text-xsl">
@@ -92,7 +92,7 @@
       <!-- 直播信息 -->
       <view class="basis-lg margin-left-sm" style="overflow: hidden;">
         <view class="text-cut text-gray text-lg">{{item.title}}</view>
-        <view class="text-gray margin-tb-xs">{{ common.formatSeconds2Hours((item.stopDate-item.startDate)/1000) }} 时 | {{ common.TimeToDate(item.startDate) }}</view>
+        <view class="text-gray margin-tb-xs" style="overflow: hidden;"><text wx:if="{{item.isFinish}}">{{ common.formatSeconds2Hours((item.stopDate-item.startDate)/1000) }} 时</text><view wx:else class="cu-tag line-cyan sm margin-right-xs">直播中</view> | {{ common.TimeToDate(item.startDate) }}</view>
         <view class="flex flex-nowrap">
           <view class="cu-capsule radius">
             <view class="cu-tag bg-gray sm">弹幕</view>
@@ -108,7 +108,7 @@
           </view>
         </view>
       </view>
-    </view>
+    </navigator>
   </view>
 
 </block>

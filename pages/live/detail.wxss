@@ -17,3 +17,7 @@ page {
   padding-top: 10px;
   border-top: 1px solid #333;
 }
+.charts {
+  width: 750rpx;
+  height: 500rpx;
+}
